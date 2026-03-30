@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HttpsAudio2Esp32</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --card: #fffdf9;
+      --line: #d8d0c1;
+      --text: #2b261f;
+      --muted: #71695e;
+      --accent: #9e4f2b;
+    }
+    * { box-sizing: border-box; font-family: "Segoe UI", "Microsoft YaHei", sans-serif; }
+    body { margin: 0; background: linear-gradient(155deg, #ece4d5, #faf8f2 60%, #eee8df); color: var(--text); }
+    main { max-width: 900px; margin: 0 auto; padding: 20px; }
+    section { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px; margin-bottom: 16px; }
+    h1, h2, p { margin-top: 0; }
+    button { border: 0; border-radius: 12px; padding: 10px 14px; background: var(--accent); color: white; cursor: pointer; margin-right: 8px; }
+    button.secondary { background: #7a705f; }
+    pre { background: #201b16; color: #f7f0e7; padding: 14px; border-radius: 14px; overflow: auto; white-space: pre-wrap; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid #eee3d1; }
+    .muted { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <h1>HttpsAudio2Esp32</h1>
+      <p>这个页面用于验证 GitHub Pages 上的音频分片资源是否能被浏览器顺序读取和播放。目标资源格式为 <code>16-bit little-endian mono 24kHz raw PCM</code>。</p>
+      <button id="loadBtn">加载清单</button>
+      <button id="playBtn">浏览器顺序播放</button>
+      <button id="stopBtn" class="secondary">停止</button>
+      <p id="summary" class="muted">尚未加载清单</p>
+    </section>
+
+    <section>
+      <h2>清单内容</h2>
+      <table>
+        <thead>
+          <tr><th>#</th><th>文件</th><th>字节数</th></tr>
+        </thead>
+        <tbody id="chunksBody"></tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>调试日志</h2>
+      <pre id="logBox">ready</pre>
+    </section>
+  </main>
+
+  <script>
+    let manifest = null;
+    let ctx = null;
+    let activeSources = [];
+    let stopped = false;
+
+    function log(line) {
+      const box = document.getElementById("logBox");
+      box.textContent += "\n" + line;
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function pcm16ToAudioBuffer(arrayBuffer, sampleRate, channels) {
+      const view = new DataView(arrayBuffer);
+      const samples = view.byteLength / 2;
+      const frames = Math.floor(samples / channels);
+      const audioBuffer = ctx.createBuffer(channels, frames, sampleRate);
+
+      for (let ch = 0; ch < channels; ch++) {
+        const data = audioBuffer.getChannelData(ch);
+        for (let i = 0; i < frames; i++) {
+          const offset = (i * channels + ch) * 2;
+          data[i] = view.getInt16(offset, true) / 32768;
+        }
+      }
+      return audioBuffer;
+    }
+
+    async function loadManifest() {
+      const res = await fetch("./manifest.json", { cache: "no-store" });
+      if (!res.ok) {
+        throw new Error("manifest.json 加载失败: " + res.status);
+      }
+      manifest = await res.json();
+      document.getElementById("summary").textContent =
+        `已加载 ${manifest.title}，${manifest.chunkCount} 个分片，${manifest.sampleRate}Hz / ${manifest.bitsPerSample}bit / ${manifest.channels}ch`;
+      document.getElementById("chunksBody").innerHTML = manifest.chunks.map((chunk, index) =>
+        `<tr><td>${index + 1}</td><td>${chunk.file}</td><td>${chunk.bytes}</td></tr>`
+      ).join("");
+      log(`manifest loaded: ${manifest.chunkCount} chunks`);
+    }
+
+    async function stopPlayback() {
+      stopped = true;
+      for (const source of activeSources) {
+        try { source.stop(); } catch (e) {}
+      }
+      activeSources = [];
+      if (ctx) {
+        try { await ctx.close(); } catch (e) {}
+        ctx = null;
+      }
+      log("playback stopped");
+    }
+
+    async function playChunks() {
+      if (!manifest) {
+        await loadManifest();
+      }
+      await stopPlayback();
+      stopped = false;
+      const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextCtor) {
+        throw new Error("浏览器不支持 AudioContext");
+      }
+      ctx = new AudioContextCtor();
+      if (ctx.state === "suspended") {
+        await ctx.resume();
+      }
+
+      let startAt = ctx.currentTime + 0.05;
+      for (const chunk of manifest.chunks) {
+        if (stopped) {
+          return;
+        }
+        log("fetch " + chunk.file);
+        const res = await fetch("./" + chunk.file, { cache: "no-store" });
+        if (!res.ok) {
+          throw new Error("chunk fetch failed: " + chunk.file + " " + res.status);
+        }
+        const buffer = await res.arrayBuffer();
+        const audioBuffer = pcm16ToAudioBuffer(buffer, manifest.sampleRate, manifest.channels);
+        const source = ctx.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(ctx.destination);
+        source.start(startAt);
+        activeSources.push(source);
+        startAt += audioBuffer.duration;
+      }
+      log("all chunks scheduled");
+    }
+
+    document.getElementById("loadBtn").addEventListener("click", async () => {
+      try {
+        await loadManifest();
+      } catch (err) {
+        log(String(err));
+      }
+    });
+
+    document.getElementById("playBtn").addEventListener("click", async () => {
+      try {
+        await playChunks();
+      } catch (err) {
+        log(String(err));
+      }
+    });
+
+    document.getElementById("stopBtn").addEventListener("click", async () => {
+      await stopPlayback();
+    });
+  </script>
+</body>
+</html>

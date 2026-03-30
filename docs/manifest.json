@@ -1,0 +1,207 @@
+﻿{
+    "title":  "Audio_1",
+    "format":  "raw-pcm",
+    "sampleRate":  24000,
+    "bitsPerSample":  16,
+    "channels":  1,
+    "endianness":  "little",
+    "chunkCount":  49,
+    "chunks":  [
+                   {
+                       "file":  "audio/Audio_1/Audio_001.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_002.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_003.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_004.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_005.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_006.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_007.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_008.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_009.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_010.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_011.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_012.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_013.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_014.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_015.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_016.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_017.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_018.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_019.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_020.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_021.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_022.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_023.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_024.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_025.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_026.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_027.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_028.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_029.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_030.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_031.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_032.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_033.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_034.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_035.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_036.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_037.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_038.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_039.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_040.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_041.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_042.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_043.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_044.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_045.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_046.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_047.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_048.raw",
+                       "bytes":  204800
+                   },
+                   {
+                       "file":  "audio/Audio_1/Audio_049.raw",
+                       "bytes":  88034
+                   }
+               ]
+}
